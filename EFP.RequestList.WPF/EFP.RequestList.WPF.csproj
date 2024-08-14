@@ -18,8 +18,4 @@
     </None>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="UIElements\Controls\" />
-  </ItemGroup>
-
 </Project>
