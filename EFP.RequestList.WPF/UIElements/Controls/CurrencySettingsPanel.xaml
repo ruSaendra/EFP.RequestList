@@ -17,7 +17,6 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <Grid 
@@ -70,13 +69,5 @@
             Name="currRateTbx"
             Grid.Column="2"
             Grid.Row="1"/>
-
-        <Button
-            Name="saveCurrBtn"
-            Content="Сохранить"
-            Grid.Row="3"
-            Grid.Column="1"
-            Grid.ColumnSpan="2"
-            HorizontalAlignment="Center"/>
     </Grid>
 </UserControl>

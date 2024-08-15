@@ -24,5 +24,20 @@ namespace EFP.RequestList.WPF.UIElements.Controls
         {
             InitializeComponent();
         }
+
+        private void addBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void rmBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void reqContLstvw_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

@@ -31,7 +31,7 @@ namespace EFP.RequestList.WPF
             InitializeComponent();
 
             SettingsManager.LoadSettings();
-            DataBaseManager.
+            //DataBaseManager.
         }
 
         private void Test()
