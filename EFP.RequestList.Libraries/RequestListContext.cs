@@ -15,6 +15,7 @@ namespace EFP.RequestList.Libraries
         public DbSet<RequestedContent> RequestedContentSet { get; set; }
         public DbSet<Request> RequestSet { get; set; }
         public DbSet<Currency> CurrencySet { get; set; }
+        public DbSet<CurrencyRate> CurrencyRateSet { get; set; }
 
         public RequestListContext()
         {

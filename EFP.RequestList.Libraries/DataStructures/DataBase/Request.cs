@@ -6,9 +6,11 @@ namespace EFP.RequestList.Libraries.DataStructures.DataBase
     {
         public uint Id { get; set; }
 
-        public double Value { get; set; }
+        public DateTime DateTime { get; set; }
 
-        public double InternalValue => Value.CurrentyToInternal(Currency);
+        public double ValueBase { get; set; }
+
+        public double ValueCurrency { get; set; }
 
         public uint CurrencyId { get; set; }
         public Currency Currency { get; set; }
