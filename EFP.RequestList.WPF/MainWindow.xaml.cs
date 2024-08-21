@@ -1,8 +1,11 @@
 ﻿using EFP.RequestList.Libraries;
 using EFP.RequestList.Libraries.DataStructures.DataBase;
 using EFP.RequestList.Libraries.Enums;
+using EFP.RequestList.Libraries.HelperClasses;
 using EFP.RequestList.Libraries.Settings;
+using EFP.RequestList.WPF.UIElements.Controls;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Win32;
 using System.Configuration;
 using System.Diagnostics;
 using System.IO;
@@ -31,7 +34,16 @@ namespace EFP.RequestList.WPF
             InitializeComponent();
 
             SettingsManager.LoadSettings();
-            //DataBaseManager.
+
+            if (!DataBaseManager.CheckIfDbExists(SettingsManager.DataBaseSettings.Path))
+            {
+                mainGrd.Children.Clear();
+                mainGrd.Children.Add(new DbNotFoundPanel());
+            }
+            else
+            {
+
+            }
         }
 
         private void Test()
@@ -44,17 +56,41 @@ namespace EFP.RequestList.WPF
             db.Add(new Currency
             {
                 Name = "Балл реквеста",
-                Rate = 1,
+                CurrencyRates = new()
+                {
+                    new CurrencyRate
+                    {
+                        DateTimeStart = DateTime.MinValue,
+                        DateTimeEnd = DateTime.MaxValue,
+                        Rate = 1,
+                    }
+                }
             });
             db.Add(new Currency
             {
                 Name = "Рубль",
-                Rate = 3,
+                CurrencyRates = new()
+                {
+                    new CurrencyRate
+                    {
+                        DateTimeStart = DateTime.MinValue,
+                        DateTimeEnd = DateTime.MaxValue,
+                        Rate = 3,
+                    }
+                }
             });
             db.Add(new Currency
             {
                 Name = "Юникрон",
-                Rate = 0.2,
+                CurrencyRates = new() 
+                {
+                    new CurrencyRate
+                    {
+                        DateTimeStart = DateTime.MinValue,
+                        DateTimeEnd = DateTime.MaxValue,
+                        Rate = .2
+                    }
+                },
             });
             db.SaveChanges();
 
@@ -88,59 +124,28 @@ namespace EFP.RequestList.WPF
             var stalker = db.RequestedContentSet.OrderBy(rc => rc.Id).ToList()[1];
             var traider = db.RequestedContentSet.OrderBy(rc => rc.Id).ToList()[2];
 
-            witcher.Requests.Add(new Request()
-            {
-                Currency = rub,
-                Value = 15.7
-            });
-            witcher.Requests.Add(new Request()
-            {
-                Currency = reqPoint,
-                Value = 35
-            });
-            witcher.Requests.Add(new Request()
-            {
-                Currency = unicron,
-                Value = 100
-            });
+            witcher.Requests.Add(new Request(15.7, rub));
+            witcher.Requests.Add(new Request(35, reqPoint));
+            witcher.Requests.Add(new Request(100, unicron));
 
-            stalker.Requests.Add(new Request()
-            {
-                Currency = rub,
-                Value = 10
-            });
-            stalker.Requests.Add(new Request()
-            {
-                Currency = rub,
-                Value = 1
-            });
-            stalker.Requests.Add(new Request()
-            {
-                Currency = unicron,
-                Value = 10
-            });
+            stalker.Requests.Add(new Request(10, rub)   );
+            stalker.Requests.Add(new Request(1, rub));
+            stalker.Requests.Add(new Request(10, unicron));
 
-            traider.Requests.Add(new Request()
-            {
-                Currency = unicron,
-                Value = 10
-            });
-            traider.Requests.Add(new Request()
-            {
-                Currency = unicron,
-                Value = 15
-            });
-            traider.Requests.Add(new Request()
-            {
-                Currency = unicron,
-                Value = 200
-            });
+            traider.Requests.Add(new Request(10, unicron));
+            traider.Requests.Add(new Request(15, unicron));
+            traider.Requests.Add(new Request(200, unicron));
             db.SaveChanges();
 
             var list = db.RequestSet
-                .AsEnumerable()
                 .GroupBy(req => req.RequestedContent)
-                .Select(grp => new { grp.Key.Name, Value = grp.Select(req => req.InternalValue).Sum() })
+                .Select(grp => new 
+                    {
+                        grp.Key.Name, 
+                        Value = grp
+                            .Select(req => req.ValueBase)
+                            .Sum() 
+                    })
                 .OrderByDescending(req => req.Value)
                 .ToList();
 

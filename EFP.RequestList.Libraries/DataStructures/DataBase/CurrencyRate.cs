@@ -11,6 +11,6 @@
 
         public DateTime DateTimeStart { get; set; }
 
-        public DateTime DateTimeEnd { get; set; }
+        public DateTime? DateTimeEnd { get; set; } = null;
     }
 }

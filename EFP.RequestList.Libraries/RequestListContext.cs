@@ -1,7 +1,9 @@
 ﻿using EFP.RequestList.Libraries.DataStructures.DataBase;
+using EFP.RequestList.Libraries.HelperClasses;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
 namespace EFP.RequestList.Libraries
@@ -42,6 +44,31 @@ namespace EFP.RequestList.Libraries
 
             //ChangeTracker.DetectedAllChanges += ChangesDetected;
         }
+
+        private RequestListContext(string path)
+        {
+            _dbFilePath = path;
+
+            if (!Directory.Exists(Path.GetDirectoryName(_dbFilePath)))
+                Directory.CreateDirectory(Path.GetDirectoryName(_dbFilePath));
+        }
+
+        public static RequestListContext Create(string path)
+        {
+            var db = new RequestListContext(path);
+            db.Database.EnsureDeleted();
+            db.Database.EnsureCreated();
+            return db;
+        }
+
+        public static RequestListContext Open(string path)
+        {
+            var db = new RequestListContext(path);
+            db.Database.OpenConnection();
+            return db;
+        }
+
+        public void Close() => Database.CloseConnection();
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
             => options.UseSqlite($"Data Source={_dbFilePath}");
