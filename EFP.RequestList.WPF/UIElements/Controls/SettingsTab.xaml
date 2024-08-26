@@ -6,9 +6,43 @@
              xmlns:local="clr-namespace:EFP.RequestList.WPF.UIElements.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <Grid.RowDefinitions>
-            
-        </Grid.RowDefinitions>
-    </Grid>
+    <StackPanel
+        Orientation="Vertical">
+        <TextBlock
+            Text="База данных:"
+            HorizontalAlignment="Stretch"
+            TextAlignment="Left"/>
+
+        <DockPanel
+            LastChildFill="True">
+            <Button
+                DockPanel.Dock="Right"
+                Name="openDbBtn"
+                Content="Открыть"
+                Click="openDbBtn_Click"/>
+            <Button
+                DockPanel.Dock="Right"
+                Name="createDbBtn"
+                Content="Создать"
+                Click="createDbBtn_Click"/>
+            <TextBlock
+                DockPanel.Dock="Right"
+                Name="dbPathTbl"
+                Text="{Binding Path}"/>
+        </DockPanel>
+
+        <TextBlock
+            Text="Валюты:"
+            HorizontalAlignment="Stretch"
+            TextAlignment="Left"
+            Margin="0 20 0 0"/>
+        <local:CurrencySettingsPanel/>
+
+        <TextBlock
+            Text="Заказываемый контент:"
+            HorizontalAlignment="Stretch"
+            TextAlignment="Left"
+            Margin="0 20 0 0"/>
+        <local:ContentSettingsPanel/>
+    </StackPanel>
 </UserControl>

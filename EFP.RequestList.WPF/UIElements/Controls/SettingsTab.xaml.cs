@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EFP.RequestList.Libraries.Settings;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,18 @@ namespace EFP.RequestList.WPF.UIElements.Controls
         public SettingsTab()
         {
             InitializeComponent();
+
+            dbPathTbl.DataContext = SettingsManager.DataBaseSettings;
+        }
+
+        private void createDbBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void openDbBtn_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

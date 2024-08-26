@@ -34,7 +34,7 @@
 
             <ListView
                 Name="currencyLstvw"
-                MinHeight="250"
+                Height="150"
                 VerticalAlignment="Stretch"
                 Grid.Row="0"
                 Grid.ColumnSpan="2"/>

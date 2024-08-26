@@ -41,7 +41,7 @@
 
             <ListView
                 Name="reqContLstvw"
-                MinHeight="250"
+                Height="150"
                 VerticalAlignment="Stretch"
                 SelectionMode="Single"
                 Grid.Row="0"
