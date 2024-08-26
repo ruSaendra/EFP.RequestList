@@ -3,6 +3,7 @@ using EFP.RequestList.Libraries.DataStructures.DataBase;
 using EFP.RequestList.Libraries.Enums;
 using EFP.RequestList.Libraries.HelperClasses;
 using EFP.RequestList.Libraries.Settings;
+using EFP.RequestList.WPF.Helpers;
 using EFP.RequestList.WPF.UIElements.Controls;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Win32;
@@ -38,12 +39,25 @@ namespace EFP.RequestList.WPF
             if (!DataBaseManager.CheckIfDbExists(SettingsManager.DataBaseSettings.Path))
             {
                 mainGrd.Children.Clear();
-                mainGrd.Children.Add(new DbNotFoundPanel());
+                var dbNotFoundPanel = new DbNotFoundPanel();
+                dbNotFoundPanel.OnDbOpened += DbOpened;
+
+                mainGrd.Children.Add(dbNotFoundPanel);
             }
             else
             {
-
+                DataBaseManager.OpenDB(SettingsManager.DataBaseSettings.Path);
+                DbOpened();
             }
+        }
+
+        private void DbOpened()
+        {
+            UIResources.InvokeByMain(() =>
+            {
+                mainGrd.Children.Clear();
+                mainGrd.Children.Add(new SessionPanel());
+            });
         }
 
         private void Test()
