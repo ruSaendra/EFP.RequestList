@@ -3,12 +3,8 @@
     /// <summary>
     /// Platform-specific user data.
     /// </summary>
-    public class UserAlias
+    public class UserAlias: BaseEntity
     {
-        /// <summary>
-        /// User alias ID.
-        /// </summary>
-        public uint Id { get; set; }
         /// <summary>
         /// User alias specific to a platform.
         /// </summary>

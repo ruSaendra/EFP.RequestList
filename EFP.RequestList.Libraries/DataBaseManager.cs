@@ -10,7 +10,7 @@ using System.Net.Http.Headers;
 
 namespace EFP.RequestList.Libraries
 {
-    public static class DataBaseManager
+    public static partial class DataBaseManager
     {
         private static RequestListContext? _db;
 
@@ -39,9 +39,6 @@ namespace EFP.RequestList.Libraries
             => QueryRequestedItems()
                 .Where(ri => ri.Type == RequestedContentType.Music)
                 .ToList();
-
-        public static List<Currency> CurrencyList
-            => QueryCurrencies();
 
         public static bool CheckIfDbExists(string? path) => (path.IsNullOrEmpty() || !File.Exists(path)) ? false : true;
 
@@ -86,74 +83,6 @@ namespace EFP.RequestList.Libraries
             }
         }
 
-        public static void AddCurrency(string currName, double currRate)
-        {
-            var currency = new Currency()
-            {
-                Name = currName,
-                CurrencyRates = [ 
-                    new CurrencyRate()
-                    {
-                        Rate = currRate,
-                        DateTimeStart = DateTime.MinValue,
-                        DateTimeEnd = DateTime.MaxValue
-                    }]
-
-            };
-            _db.CurrencySet.Add(currency);
-            _db.SaveChanges(true);
-        }
-
-        public static void EditCurrency(Currency currency, string currNewName)
-        {
-            if (_db.CurrencySet.Contains(currency))
-            {
-                _db.CurrencySet.First(curr => curr == currency).Name = currNewName;
-                _db.SaveChanges(true);
-            }
-        }
-
-        public static void DeleteCurrency(Currency currency)
-        {
-            if (_db.CurrencySet.Contains(currency))
-            {
-                _db.CurrencySet.Remove(currency);
-                _db.SaveChanges(true);
-            }
-        }
-
-        public static void AddRate(Currency currency, double currRate)
-        {
-            if (_db.CurrencySet.Contains(currency))
-            {
-                var currToChange = _db.CurrencySet.First(curr => curr == currency);
-                var oldRate = currToChange.CurrentRate;
-
-                var dtNow = DateTime.UtcNow;
-
-                if(oldRate.DateTimeEnd == null)
-                    oldRate.DateTimeEnd = dtNow;
-
-                currToChange.CurrencyRates.Add(new CurrencyRate()
-                {
-                    Rate = currRate,
-                    DateTimeStart = dtNow
-                });
-                _db.SaveChanges(true);
-            }
-        }
-
-        public static void QueryRates(Currency currency)
-        {
-            if (_db.CurrencySet.Contains(currency))
-            {
-                currency.CurrencyRates.Clear();
-                currency.CurrencyRates = _db.CurrencyRateSet
-                    .Where(cr => cr.Currency == currency)
-                    .ToList();
-            }
-        }
-
         private static void ChangesDetected(object? sender, DetectedChangesEventArgs e)
         {
             var chTracker = sender as ChangeTracker;
@@ -188,10 +117,6 @@ namespace EFP.RequestList.Libraries
                     Value = grp.Select(req => req.ValueBase).Sum()
                 })
                 .OrderByDescending(req => req.Value)
-                .ToList() ?? [];
-
-        private static List<Currency> QueryCurrencies()
-            => _db?.CurrencySet
                 .ToList() ?? [];
     }
 }

@@ -1,16 +1,15 @@
 ﻿using EFP.RequestList.Libraries.HelperClasses;
+using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata;
 
 namespace EFP.RequestList.Libraries.DataStructures.DataBase
 {
     /// <summary>
     /// Content request data.
     /// </summary>
-    public class Request
+    [Index(nameof(ArchiveTimeStamp), AllDescending = true)]
+    public class Request: BaseEntity
     {
-        /// <summary>
-        /// Content request ID.
-        /// </summary>
-        public uint Id { get; set; }
         /// <summary>
         /// Content request time.
         /// </summary>
@@ -42,6 +41,14 @@ namespace EFP.RequestList.Libraries.DataStructures.DataBase
         /// Request description.
         /// </summary>
         public string Description { get; set; } = string.Empty;
+        /// <summary>
+        /// DateTime of request archivation.
+        /// </summary>
+        public DateTime? ArchiveTimeStamp { get; set;}
+        /// <summary>
+        /// Whether request is archived.
+        /// </summary>
+        public bool IsArchived => ArchiveTimeStamp != null;
 
         public Request() { }
 

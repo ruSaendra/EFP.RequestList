@@ -3,12 +3,8 @@
     /// <summary>
     /// Requested user data.
     /// </summary>
-    public class User
+    public class User: BaseEntity
     {
-        /// <summary>
-        /// User ID.
-        /// </summary>
-        public uint Id { get; set; }
         /// <summary>
         /// Common user name.
         /// </summary>

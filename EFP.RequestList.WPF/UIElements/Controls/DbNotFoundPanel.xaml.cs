@@ -44,6 +44,7 @@ namespace EFP.RequestList.WPF.UIElements.Controls
             {
                 Filter = "Database files | *.db",
                 DefaultExt = "db",
+                FileName = fileName ?? "database.db",
             };
 
             if (!dirPath.IsNullOrEmpty())

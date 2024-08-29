@@ -5,12 +5,8 @@ namespace EFP.RequestList.Libraries.DataStructures.DataBase
     /// <summary>
     /// Requested contend data.
     /// </summary>
-    public class RequestedContent
+    public class RequestedContent: BaseEntity
     {
-        /// <summary>
-        /// Requested content ID.
-        /// </summary>
-        public uint Id { get; set; }
         /// <summary>
         /// Requested content name.
         /// </summary>
@@ -23,6 +19,10 @@ namespace EFP.RequestList.Libraries.DataStructures.DataBase
         /// Requested content name.
         /// </summary>
         public RequestedContentType Type { get; set; }
+        /// <summary>
+        /// Content picked for streaming.
+        /// </summary>
+        public bool Picked { get; set; }
 
         /// <summary>
         /// Requests made for this content.

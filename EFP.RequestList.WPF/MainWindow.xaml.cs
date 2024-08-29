@@ -28,7 +28,7 @@ namespace EFP.RequestList.WPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        RequestListContext db; // = new RequestListContext();
+        RequestListContext db;
 
         public MainWindow()
         {

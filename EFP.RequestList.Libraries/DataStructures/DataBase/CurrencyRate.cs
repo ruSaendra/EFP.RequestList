@@ -1,15 +1,13 @@
-﻿namespace EFP.RequestList.Libraries.DataStructures.DataBase
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace EFP.RequestList.Libraries.DataStructures.DataBase
 {
     /// <summary>
     /// App currency rate data.
     /// </summary>
-    public class CurrencyRate
+    [Index(nameof(DateTimeStart), nameof(DateTimeEnd), AllDescending = true)]
+    public class CurrencyRate: BaseEntity
     {
-        /// <summary>
-        /// Currency rate ID.
-        /// </summary>
-        public uint Id { get; set; }
-
         /// <summary>
         /// Currency this rate applies to.
         /// </summary>

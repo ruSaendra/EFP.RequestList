@@ -3,12 +3,8 @@
     /// <summary>
     /// Viewership platform.
     /// </summary>
-    public class Platform
+    public class Platform: BaseEntity
     {
-        /// <summary>
-        /// Platform ID.
-        /// </summary>
-        public uint Id { get; set; }
         /// <summary>
         /// Platform name.
         /// </summary>

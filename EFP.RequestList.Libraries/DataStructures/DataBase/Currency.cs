@@ -3,12 +3,8 @@
     /// <summary>
     /// App currency data.
     /// </summary>
-    public class Currency
+    public class Currency: BaseEntity
     {
-        /// <summary>
-        /// Currency ID
-        /// </summary>
-        public uint Id { get; set; }
         /// <summary>
         /// Currency name
         /// </summary>
@@ -19,16 +15,16 @@
         public List<CurrencyRate> CurrencyRates { get; set; } = [];
 
         /// <summary>
-        /// Current currency rate
+        /// Get current currency rate
         /// </summary>
-        public CurrencyRate CurrentRate => GetCurrentRate();
+        /// <returns></returns>
+        public CurrencyRate GetCurrentRate() => CurrencyRates
+            .OrderByDescending(cr => cr.DateTimeStart)
+            .First();
 
-        private CurrencyRate GetCurrentRate()
-        {
-            if (CurrencyRates.Count == 0)
-                DataBaseManager.QueryRates(this);
-
-            return CurrencyRates.OrderByDescending(cr => cr.DateTimeStart).First();
-        }
+        public CurrencyRate GetRateAtTimeStamp(DateTime timeStamp) => CurrencyRates
+            .Where(cr => cr.DateTimeStart < timeStamp && (cr.DateTimeEnd == null || cr.DateTimeEnd > timeStamp))
+            .OrderByDescending(cr => cr.DateTimeStart)
+            .First();
     }
 }
