@@ -18,13 +18,15 @@
         /// Get current currency rate
         /// </summary>
         /// <returns></returns>
-        public CurrencyRate GetCurrentRate() => CurrencyRates
-            .OrderByDescending(cr => cr.DateTimeStart)
-            .First();
+        public CurrencyRate GetCurrentRate() 
+            => CurrencyRates
+                .OrderByDescending(cr => cr.DateTimeStart)
+                .First();
 
-        public CurrencyRate GetRateAtTimeStamp(DateTime timeStamp) => CurrencyRates
-            .Where(cr => cr.DateTimeStart < timeStamp && (cr.DateTimeEnd == null || cr.DateTimeEnd > timeStamp))
-            .OrderByDescending(cr => cr.DateTimeStart)
-            .First();
+        public CurrencyRate GetRateAtTimeStamp(DateTime timeStamp) 
+            => CurrencyRates
+                .Where(cr => cr.DateTimeStart < timeStamp && (cr.DateTimeEnd == null || cr.DateTimeEnd > timeStamp))
+                .OrderByDescending(cr => cr.DateTimeStart)
+                .First();
     }
 }

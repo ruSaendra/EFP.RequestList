@@ -28,5 +28,7 @@ namespace EFP.RequestList.Libraries.DataStructures.DataBase
         /// Requests made for this content.
         /// </summary>
         public List<Request> Requests { get; set; } = [];
+
+        public double RequestSum => Requests.Where(r => !r.IsArchived).Sum(r => r.ValueBase);
     }
 }

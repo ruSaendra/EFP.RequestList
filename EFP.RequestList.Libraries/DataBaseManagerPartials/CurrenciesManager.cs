@@ -1,13 +1,16 @@
 ﻿using EFP.RequestList.Libraries.DataStructures.DataBase;
 using Microsoft.EntityFrameworkCore;
-using System.Runtime.CompilerServices;
 
 namespace EFP.RequestList.Libraries
 {
+    // Partial containing methods working with currencies.
     public static partial class DataBaseManager
     {
-        public static List<Currency> CurrencyList
-            => QueryCurrencies();
+        public static List<Currency> QueryCurrencies()
+            => db
+                .CurrencySet
+                .Include(cur => cur.CurrencyRates)
+                .ToList() ?? [];
 
         public static void AddCurrency(string currName, double currRate)
         {
@@ -23,8 +26,8 @@ namespace EFP.RequestList.Libraries
                     }]
 
             };
-            _db.CurrencySet.Add(currency);
-            _db.SaveChanges(true);
+            db.CurrencySet.Add(currency);
+            db.SaveChanges(true);
         }
 
         public static void EditCurrency(Currency currency, string currNewName)
@@ -66,20 +69,6 @@ namespace EFP.RequestList.Libraries
             }
         }
 
-        public static void QueryRates(this Currency currency)
-        {
-            if (_db.CurrencySet.Contains(currency))
-            {
-                currency.CurrencyRates.Clear();
-                currency.CurrencyRates = _db.CurrencyRateSet
-                    .Where(cr => cr.Currency == currency)
-                    .ToList();
-            }
-        }
-
-        private static List<Currency> QueryCurrencies()
-            => _db?.CurrencySet
-                .Include(cur => cur.CurrencyRates) //.Select(cr => cr.Currency)
-                .ToList() ?? [];
+        
     }
 }

@@ -7,12 +7,27 @@ using EFP.RequestList.Libraries.HelperClasses;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using System.IO;
 using System.Net.Http.Headers;
+using EFP.RequestList.Libraries.Exceptions;
 
 namespace EFP.RequestList.Libraries
 {
+    /// <summary>
+    /// Class containing methods for working with application's DB context.
+    /// </summary>
     public static partial class DataBaseManager
     {
         private static RequestListContext? _db;
+
+        private static RequestListContext db
+        {
+            get
+            {
+                if (_db == null)
+                    throw new DbNotInitializedException();
+
+                return _db;
+            }
+        }
 
         public delegate void DbChangesSaved();
         public static event DbChangesSaved? RequestSetChanged;
